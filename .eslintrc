@@ -1,0 +1,9 @@
+{
+    "parserOptions": { "ecmaVersion": 8, "sourceType": "module" },
+    "plugins": ["prettier"],
+    "parser": "babel-eslint",
+    "rules": {
+        "semi": ["error", "never"],
+        "quotes": ["error", "single"]
+    }
+}
