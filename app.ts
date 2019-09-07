@@ -54,4 +54,9 @@ app.use(allRouter.routes()).use(allRouter.allowedMethods())
 // 日志
 app.use(log)
 
+// 给EventEmitter添加最大监听器
+var EventEmitter = require('events').EventEmitter
+var ee = new EventEmitter()
+ee.setMaxListeners(15)
+
 app.listen(3000)

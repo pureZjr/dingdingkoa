@@ -3,7 +3,7 @@ import Router from 'koa-router'
 import DB from '@mongodb/db'
 import { CollectionName } from '@constant/index'
 import { getPhoneByToken, getDdTokenByToken } from '@utils/commons'
-import { getCustomerInfo, getHistoryOrderCost } from '@service/api/usersApi'
+import { getCustomerInfo, getHistoryOrderCost, getHistoryOrder } from '@service/api/usersApi'
 
 const UsersInfoRouter = new Router()
 
@@ -141,5 +141,29 @@ UsersInfoRouter.post('/edit-nickname', async (ctx, next) => {
         ctx.body = { status: 0, message: '修改失败' }
     }
 })
+// 获取历史行程
+UsersInfoRouter.get('/journey', async (ctx, next) => {
+    const data = ctx.request.query
+    try {
+        const phone = await getPhoneByToken(data.token)
+        let res = await DB.find(CollectionName.journey, { phone })
+        // 没查询到历史订单，就查询叮叮接口
+        if (!res.length) {
+            const ddToken = await getDdTokenByToken(data.token)
+            const list = await getHistoryOrder({
+                pageNo: 1,
+                pageSize: 100000,
+                token: ddToken
+            })
+            DB.insertMany(CollectionName.journey, list.data)
+            ctx.body = { status: 1, data: list.data[0].data }
+        } else {
+            ctx.body = { status: 1, data: res[0].data }
+        }
+    } catch {
+        ctx.body = { status: 0, message: '获取失败' }
+    }
 
+    await next()
+})
 export default UsersInfoRouter
