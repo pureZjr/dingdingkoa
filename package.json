@@ -5,12 +5,13 @@
     "main": "lib/app.js",
     "bin": "lib/app.js",
     "scripts": {
-        "start": "npm run dev && tsc -w & nodemon dist/app.js ",
+        "start": "npm run dev && tsc -w & nodemon dist/app.js",
         "watch-server": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' app.ts",
         "deployProd": "./build/deployProd.sh",
         "pkg": "pkg . --out-path=dist/",
         "dev": "webpack --config ./webpack.config.development.js --watch",
-        "lint": "eslint src --ext .ts"
+        "lint": "eslint src --ext .ts",
+        "serverStart": "nodemon dist/app.js"
     },
     "author": "",
     "license": "ISC",
