@@ -16,15 +16,13 @@
     "license": "ISC",
     "dependencies": {
         "axios": "^0.18.0",
-        "bluebird": "^3.5.5",
-        "brorand": "^1.1.0",
         "koa": "^2.5.2",
         "koa-body": "^4.0.4",
         "koa-bodyparser": "^4.2.1",
         "koa-cors": "0.0.16",
         "koa-router": "^7.4.0",
         "koa-session": "^5.9.0",
-        "monk": "^6.0.6",
+        "mongodb": "^3.3.3",
         "qiniu": "^7.2.2",
         "qn": "^1.3.0",
         "tslib": "^1.9.3"
