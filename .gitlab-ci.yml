@@ -20,5 +20,5 @@ before_script:
             - npm run deploy
             - yarn
         tags:
-            - hometown
+            - koaForDD
     
