@@ -1,24 +1,23 @@
 image: node:latest
 
 variables:
-    LAST_CACHE_CLEAR_TIME: 20190624
+  LAST_CACHE_CLEAR_TIME: 20190624
 
 before_script:
-    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-      
-    stages:
-        - deploy_${LAST_CACHE_CLEAR_TIME}_stage
-    
-    deploy:
-        stage: deploy_${LAST_CACHE_CLEAR_TIME}_stage
-        script:
-            - npm run deploy
-            - yarn
-        tags:
-            - koaForDD
-    
+  - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+stages:
+  - deploy_${LAST_CACHE_CLEAR_TIME}_stage
+
+deploy:
+  stage: deploy_${LAST_CACHE_CLEAR_TIME}_stage
+  script:
+    - npm run deploy
+    - yarn
+  tags:
+    - koaForDD
