@@ -7,8 +7,7 @@
     "scripts": {
         "start": "npm run dev && tsc -w & nodemon dist/app.js",
         "watch-server": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' app.ts",
-        "deployProd": "./build/deployProd.sh",
-        "pkg": "pkg . --out-path=dist/",
+        "deploy": "./build/deployProd.sh",
         "dev": "webpack --config ./webpack.config.development.js --watch",
         "lint": "eslint src --ext .ts",
         "serverStart": "nodemon dist/app.js"
