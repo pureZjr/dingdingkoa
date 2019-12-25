@@ -1,6 +1,6 @@
 node_modules/
 config/
-/build/deployProd.sh
+build/deployProd.sh
 lib/
 dist/
 verify.png
