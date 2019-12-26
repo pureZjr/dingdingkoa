@@ -24,11 +24,15 @@ export function qiniuConfig() {
     return config
 }
 // 上传文件
-export function qiniuUpload(args: { filePath: string; prefix: string; filename: string }): any {
+export function qiniuUpload(args: {
+    filePath: string
+    prefix: string
+    filename: string
+}): any {
     return new Promise((resolve, reject) => {
         const mac = new qiniu.auth.digest.Mac(AK, SK)
         const options = {
-            scope: `${bucket}`
+            scope: `${bucket}`,
             // fsizeMin: 0
         }
         const putPolicy = new qiniu.rs.PutPolicy(options)
@@ -38,19 +42,25 @@ export function qiniuUpload(args: { filePath: string; prefix: string; filename: 
         const formUploader = new qiniu.form_up.FormUploader(config)
         const putExtra = new qiniu.form_up.PutExtra()
         // 文件上传
-        formUploader.putFile(uploadToken, null, localFile, putExtra, (respErr, respBody, respInfo) => {
-            if (respErr) {
-                throw respErr
+        formUploader.putFile(
+            uploadToken,
+            null,
+            localFile,
+            putExtra,
+            (respErr, respBody, respInfo) => {
+                if (respErr) {
+                    throw respErr
+                }
+                if (respInfo.statusCode == 200) {
+                    resolve({
+                        key: respBody.key,
+                        type: 'success',
+                    })
+                } else {
+                    reject({ type: 'err', msg: respBody })
+                }
             }
-            if (respInfo.statusCode == 200) {
-                resolve({
-                    key: respBody.key,
-                    type: 'success'
-                })
-            } else {
-                reject({ type: 'err', msg: respBody })
-            }
-        })
+        )
     })
 }
 // 创建后台管理的token
@@ -59,8 +69,8 @@ export function createToken(data: { password: string; phone: string }) {
         {
             iss: {
                 ...data,
-                password: data.password
-            }
+                password: data.password,
+            },
         },
         config.TOKEN_SECERT
     )
@@ -79,7 +89,9 @@ export async function getPhoneByToken(token: string) {
 // 根据token获取叮叮token
 export async function getDdTokenByToken(token: string) {
     const decoded = jwt.decode(token, config.TOKEN_SECERT)
-    const res = await DB.find(CollectionName.ddTokenPhoneMap, { phone: decoded.iss.phone })
+    const res = await DB.find(CollectionName.ddTokenPhoneMap, {
+        phone: decoded.iss.phone,
+    })
     return res[0].token
 }
 // 检查token合法性

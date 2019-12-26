@@ -6,9 +6,11 @@ import fs from 'fs'
 import config from '@config/index'
 
 export const get = (url, data) => {
-    return axios.get(`${config.baseUrl}${url}?${qs.stringify(data)}`).then(async response => {
-        return response.data
-    })
+    return axios
+        .get(`${config.baseUrl}${url}?${qs.stringify(data)}`)
+        .then(async response => {
+            return response.data
+        })
 }
 
 export const post = (url, data) => {
